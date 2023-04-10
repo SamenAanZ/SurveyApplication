@@ -1,0 +1,18 @@
+<div>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Link</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let q of questionnaires">
+      <th scope="row">{{ q.id }}</th>
+      <td>{{ q.name }}</td>
+      <td><a [href]="q.link">{{ q.link }}</a></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
