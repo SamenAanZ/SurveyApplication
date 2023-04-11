@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Questionnaire} from "./questionnaire";
 import {Client} from "../api/client";
 import {Observable, Subject} from "rxjs";
@@ -25,5 +25,10 @@ export class QuestionnaireService {
 
     return (await this.api.RetrieveAll())
       .map(x => new Questionnaire(x.formId, x.info.title, x.answerUrl, x.info.description));
+  }
+
+  public async Create(title: string, description: string): Promise<void> {
+    await this.api.Create(title, description);
+    this.mutationsSubject.next(Mutation.Questionnaires);
   }
 }
