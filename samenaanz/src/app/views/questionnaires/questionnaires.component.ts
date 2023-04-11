@@ -38,8 +38,4 @@ export class QuestionnairesComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
-
-  public async create(): Promise<void>{
-    await this.questionnaireService.Create("XX", "YY");
-  }
 }
