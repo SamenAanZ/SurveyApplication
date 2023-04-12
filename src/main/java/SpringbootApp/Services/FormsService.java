@@ -1,6 +1,7 @@
 package SpringbootApp.Services;
 
 import SpringbootApp.Interfaces.IFormsService;
+import SpringbootApp.Interfaces.ISurveyRepository;
 import SpringbootApp.Model.Survey;
 import SpringbootApp.Repository.SurveyRepository;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -26,9 +27,7 @@ public class FormsService implements IFormsService {
 
     private static final String APPLICATION_NAME = "Forms test app";
     private static Forms formsService;
-
-    @Autowired
-    private SurveyRepository surveyRepository;
+    private ISurveyRepository surveyRepository;
 
     static {
         try {
@@ -42,7 +41,8 @@ public class FormsService implements IFormsService {
     }
 
     @Autowired
-    public FormsService() {
+    public FormsService(ISurveyRepository surveyRepository) {
+        this.surveyRepository = surveyRepository;
     }
 
     private String getAccessToken() throws IOException {
@@ -52,15 +52,6 @@ public class FormsService implements IFormsService {
                 credential.getAccessToken().getTokenValue() :
                 credential.refreshAccessToken().getTokenValue();
         return accessToken;
-    }
-
-    public List<Survey> getForms() {
-        return (List<Survey>) surveyRepository.findAll();
-    }
-
-    public Survey getForm(String id) {
-        Optional<Survey> dbResponse = surveyRepository.findById(id);
-        return dbResponse.isEmpty() ? null : dbResponse.get();
     }
 
     @Override
@@ -76,11 +67,17 @@ public class FormsService implements IFormsService {
 
         Survey survey = new Survey(form.getFormId(), form.getResponderUri(), form.getInfo().getTitle());
 
-        try {
-            surveyRepository.save(survey);
-        } catch (Exception ex) {
-            return null;
-        }
+        if(!surveyRepository.createSurvey(survey)) return null;
+
         return form.getFormId();
     }
+
+    public List<Survey> getForms() {
+        return surveyRepository.getSurveys();
+    }
+
+    public Survey getForm(String id) {
+        return surveyRepository.getSurvey(id);
+    }
+
 }
