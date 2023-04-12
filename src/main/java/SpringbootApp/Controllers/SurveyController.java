@@ -1,27 +1,15 @@
 package SpringbootApp.Controllers;
 
 import SpringbootApp.Interfaces.IFormsService;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.services.drive.Drive;
-import com.google.api.services.forms.v1.Forms;
-import com.google.api.services.forms.v1.FormsScopes;
-import com.google.api.services.forms.v1.model.Form;
-import com.google.api.services.forms.v1.model.Info;
-import com.google.auth.oauth2.GoogleCredentials;
+import SpringbootApp.Model.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.GeneralSecurityException;
-import java.util.Objects;
-
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/survey")
@@ -33,6 +21,27 @@ public class SurveyController {
     @Autowired
     public SurveyController(IFormsService formsService) {
         this.formsService = formsService;
+    }
+
+    @GetMapping
+    public ResponseEntity getSurveys() throws IOException {
+        List<Survey> surveys = formsService.getForms();
+
+        if(surveys == null) return ResponseEntity.badRequest().build();
+        if(surveys.isEmpty()) return ResponseEntity.noContent().build();
+
+        return ResponseEntity.ok(surveys);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity getSurvey(@PathVariable(value = "id") String id) {
+        if(id == null) return ResponseEntity.badRequest().build();
+
+        Survey survey = formsService.getForm(id);
+
+        if(survey == null) return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok(survey);
     }
 
     @PostMapping

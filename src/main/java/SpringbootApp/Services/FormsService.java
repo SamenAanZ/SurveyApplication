@@ -1,6 +1,8 @@
 package SpringbootApp.Services;
 
 import SpringbootApp.Interfaces.IFormsService;
+import SpringbootApp.Model.Survey;
+import SpringbootApp.Repository.SurveyRepository;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -15,23 +17,22 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.GeneralSecurityException;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class FormsService implements IFormsService {
 
     private static final String APPLICATION_NAME = "Forms test app";
-//    private static Drive driveService;
     private static Forms formsService;
+
+    @Autowired
+    private SurveyRepository surveyRepository;
 
     static {
         try {
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-
-//            driveService = new Drive.Builder(GoogleNetHttpTransport.newTrustedTransport(),
-//                    jsonFactory, null)
-//                    .setApplicationName(APPLICATION_NAME).build();
-
             formsService = new Forms.Builder(GoogleNetHttpTransport.newTrustedTransport(),
                     jsonFactory, null)
                     .setApplicationName(APPLICATION_NAME).build();
@@ -53,6 +54,15 @@ public class FormsService implements IFormsService {
         return accessToken;
     }
 
+    public List<Survey> getForms() {
+        return (List<Survey>) surveyRepository.findAll();
+    }
+
+    public Survey getForm(String id) {
+        Optional<Survey> dbResponse = surveyRepository.findById(id);
+        return dbResponse.isEmpty() ? null : dbResponse.get();
+    }
+
     @Override
     public String createNewForm() throws IOException {
         String token = getAccessToken();
@@ -64,6 +74,13 @@ public class FormsService implements IFormsService {
                 .setAccessToken(token)
                 .execute();
 
+        Survey survey = new Survey(form.getFormId(), form.getResponderUri(), form.getInfo().getTitle());
+
+        try {
+            surveyRepository.save(survey);
+        } catch (Exception ex) {
+            return null;
+        }
         return form.getFormId();
     }
 }
