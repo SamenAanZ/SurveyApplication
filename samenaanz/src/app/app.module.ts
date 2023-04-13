@@ -6,6 +6,7 @@ import { QuestionnairesComponent } from './views/questionnaires/questionnaires.c
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CreateQuestionnaireComponent } from './views/create-questionnaire/create-questionnaire.component';
 import {FormsModule} from "@angular/forms";
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {FormsModule} from "@angular/forms";
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
