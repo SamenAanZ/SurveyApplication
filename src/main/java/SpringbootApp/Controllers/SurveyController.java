@@ -1,6 +1,7 @@
 package SpringbootApp.Controllers;
 
 import SpringbootApp.Interfaces.IFormsService;
+import SpringbootApp.Model.DTO.InitialSurveyRequest;
 import SpringbootApp.Model.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/survey")
@@ -45,8 +45,10 @@ public class SurveyController {
     }
 
     @PostMapping
-    public ResponseEntity createSurvey() throws GeneralSecurityException, IOException {
-        String formId = formsService.createNewForm();
+    public ResponseEntity createSurvey(@RequestBody InitialSurveyRequest data) throws GeneralSecurityException, IOException {
+        if(data == null) return ResponseEntity.badRequest().build();
+
+        String formId = formsService.createNewForm(data.getTitle(), data.getDescription());
 
         if(formId == null) return ResponseEntity.badRequest().build();
 

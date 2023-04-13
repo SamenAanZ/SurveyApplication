@@ -1,6 +1,7 @@
 package SpringbootApp.Services;
 
 import SpringbootApp.Interfaces.IFormsService;
+import SpringbootApp.Interfaces.IGoogleFormService;
 import SpringbootApp.Interfaces.ISurveyRepository;
 import SpringbootApp.Model.Survey;
 import SpringbootApp.Repository.SurveyRepository;
@@ -24,48 +25,20 @@ import java.util.Optional;
 
 @Service
 public class FormsService implements IFormsService {
-
-    private static final String APPLICATION_NAME = "Forms test app";
-    private static Forms formsService;
     private ISurveyRepository surveyRepository;
-
-    static {
-        try {
-            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-            formsService = new Forms.Builder(GoogleNetHttpTransport.newTrustedTransport(),
-                    jsonFactory, null)
-                    .setApplicationName(APPLICATION_NAME).build();
-        } catch (GeneralSecurityException | IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private IGoogleFormService googleFormService;
 
     @Autowired
-    public FormsService(ISurveyRepository surveyRepository) {
+    public FormsService(ISurveyRepository surveyRepository, IGoogleFormService googleFormService) {
         this.surveyRepository = surveyRepository;
+        this.googleFormService = googleFormService;
     }
 
-    private String getAccessToken() throws IOException {
-        InputStream resource = getClass().getClassLoader().getResourceAsStream("google-app-credentials.json");
-        GoogleCredentials credential = GoogleCredentials.fromStream(Objects.requireNonNull(resource)).createScoped(FormsScopes.all());
-        String accessToken = credential.getAccessToken() != null ?
-                credential.getAccessToken().getTokenValue() :
-                credential.refreshAccessToken().getTokenValue();
-        return accessToken;
-    }
+    public String createNewForm(String title, String description) throws IOException {
+        Form form = googleFormService.createGoogleForm();
+        if(form == null) return null;
 
-    @Override
-    public String createNewForm() throws IOException {
-        String token = getAccessToken();
-        Form form = new Form();
-        form.setInfo(new Info());
-        form.getInfo().setTitle("This is a default new form");
-
-        form = formsService.forms().create(form)
-                .setAccessToken(token)
-                .execute();
-
-        Survey survey = new Survey(form.getFormId(), form.getResponderUri(), form.getInfo().getTitle());
+        Survey survey = new Survey(form.getFormId(), form.getResponderUri(), form.getInfo().getTitle(), "");
 
         if(!surveyRepository.createSurvey(survey)) return null;
 
