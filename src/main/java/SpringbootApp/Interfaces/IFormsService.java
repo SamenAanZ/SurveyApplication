@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface IFormsService {
-    String createNewForm() throws IOException;
+    String createNewForm(String title, String description) throws IOException;
     List<Survey> getForms();
     Survey getForm(String id);
 }
