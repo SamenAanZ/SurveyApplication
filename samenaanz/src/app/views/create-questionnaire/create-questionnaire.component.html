@@ -1,0 +1,13 @@
+<div class="row">
+  <div class="col-2">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" class="form-control" id="title" placeholder="Enter title" [(ngModel)]="inputTitle" />
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input type="text" class="form-control" id="description" placeholder="Enter description" [(ngModel)]="inputDescription" />
+    </div>
+    <button type="button" class="btn btn-primary" (click)="Create()">Create</button>
+  </div>
+</div>
