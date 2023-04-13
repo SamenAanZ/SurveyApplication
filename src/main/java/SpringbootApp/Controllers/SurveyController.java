@@ -45,7 +45,7 @@ public class SurveyController {
     }
 
     @PostMapping
-    public ResponseEntity createSurvey(@RequestBody InitialSurveyRequest data) throws GeneralSecurityException, IOException {
+    public ResponseEntity createSurvey(@RequestBody (required = false) InitialSurveyRequest data) throws GeneralSecurityException, IOException {
         if(data == null) return ResponseEntity.badRequest().build();
 
         String formId = formsService.createNewForm(data.getTitle(), data.getDescription());

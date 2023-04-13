@@ -6,8 +6,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.forms.v1.Forms;
 import com.google.api.services.forms.v1.FormsScopes;
-import com.google.api.services.forms.v1.model.Form;
-import com.google.api.services.forms.v1.model.Info;
+import com.google.api.services.forms.v1.model.*;
 import com.google.auth.oauth2.GoogleCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.GeneralSecurityException;
+import java.util.Collections;
 import java.util.Objects;
 
 @Service
@@ -63,5 +63,33 @@ public class GoogleFormService implements IGoogleFormService {
                 .execute();
 
         return form;
+    }
+
+    public boolean updateGoogleForm(String formId, String title, String description) throws IOException {
+        String token = getAccessToken();
+        if(token == null) return false;
+
+        BatchUpdateFormRequest batchRequest = new BatchUpdateFormRequest();
+        Request request = new Request();
+        request.setUpdateFormInfo(new UpdateFormInfoRequest());
+
+        request.getUpdateFormInfo().setInfo(new Info()
+                .setTitle(title)
+                .setDescription(description)
+        );
+        request.getUpdateFormInfo().setUpdateMask("*");
+
+        batchRequest.setRequests(Collections.singletonList(request));
+
+        try {
+            formsService.forms().batchUpdate(formId, batchRequest)
+                    .setAccessToken(token)
+                    .execute();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        }
+
+        return true;
     }
 }
