@@ -1,21 +1,5 @@
-<nb-layout>
+<app-header></app-header>
 
-  <nb-layout-header fixed>
-  <b>Samen Aan Z</b>
-  </nb-layout-header>
-
-  <nb-sidebar>
-    <nb-menu [items]="items"></nb-menu>
-  </nb-sidebar>
-
-  <nb-layout-column>
-    <!-- <app-navbar></app-navbar> PROBABLY ADD A HEADER COMPONENT -->
-    <div class="container">
-      <router-outlet></router-outlet>
-    </div>
-    
-  </nb-layout-column>
-
-  <!-- <nb-layout-footer fixed></nb-layout-footer> -->
-
-</nb-layout>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

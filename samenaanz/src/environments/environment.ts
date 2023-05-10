@@ -1,8 +1,8 @@
 export const keycloakEnvironment = {
     // Keycloak instance settings
-    url: "http://localhost:8080/",
-    realm: "myrealm",
-    client: "myclient",
+    url: "http://localhost:8080",
+    realm: "SamenAanZ",
+    client: "samenaanz-frontend",
 
     // Settings that check if the user is still logged in
     checkLogin: true,
@@ -10,5 +10,5 @@ export const keycloakEnvironment = {
 }
 
 export const angularEnvironment = {
-    url: "http://localhost:4200/"
+    url: "http://localhost:4200"
 }

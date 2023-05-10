@@ -15,18 +15,28 @@ import { CreateQuestionnaireComponent } from './views/create-questionnaire/creat
 // Nebula
 import { NbThemeModule, NbLayoutModule, NbSidebarModule, NbButtonModule } from '@nebular/theme';
 import { NbMenuModule } from '@nebular/theme';
+import { NbUserModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { NbTabsetModule, NbTabComponent } from '@nebular/theme';
 
 // Keycloak
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initializeKeycloak } from './auth/app.init';
+import { HomeComponent } from './views/home/home.component';
+import { HeaderComponent } from './components/header/header.component';
+import { ProfileComponent } from './views/profile/profile.component';
+import { QuestionnaireResultsComponent } from './views/questionnaire-results/questionnaire-results.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     QuestionnairesComponent,
     NavbarComponent,
-    CreateQuestionnaireComponent
+    CreateQuestionnaireComponent,
+    HomeComponent,
+    HeaderComponent,
+    ProfileComponent,
+    QuestionnaireResultsComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +49,9 @@ import { initializeKeycloak } from './auth/app.init';
     NbSidebarModule.forRoot(),
     NbButtonModule,
     NbMenuModule.forRoot(),
-    KeycloakAngularModule
+    NbUserModule,
+    KeycloakAngularModule,
+    NbTabsetModule
   ],
   providers: [
     {
