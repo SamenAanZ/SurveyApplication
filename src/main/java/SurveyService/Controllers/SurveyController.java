@@ -35,7 +35,7 @@ public class SurveyController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getSurvey(@PathVariable(value = "id") String id) {
+    public ResponseEntity getSurvey(@PathVariable(value = "id") Long id) {
         if(id == null) return ResponseEntity.badRequest().build();
 
         Survey survey = formsService.getForm(id);
@@ -49,7 +49,7 @@ public class SurveyController {
     public ResponseEntity createSurvey(@RequestBody (required = false) InitialSurveyRequest data) throws GeneralSecurityException, IOException {
         if(data == null) return ResponseEntity.badRequest().build();
 
-        String formId = formsService.createNewForm(data.getTitle(), data.getDescription());
+        Long formId = formsService.createNewForm(data.getTitle(), data.getDescription());
 
         if(formId == null) return ResponseEntity.badRequest().build();
 

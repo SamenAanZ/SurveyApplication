@@ -19,20 +19,21 @@ public class SurveyRepository implements ISurveyRepository {
         this.database = db;
     }
 
-    public boolean createSurvey(Survey survey) {
+    public Survey createSurvey(Survey survey) {
         try {
-            database.save(survey);
+            Survey savedSurvey = database.save(survey);
+            return savedSurvey;
         } catch (Exception ex) {
-            return false;
+            System.out.println(ex);
+            return null;
         }
-        return true;
     }
 
     public List<Survey> getSurveys() {
         return (List<Survey>) database.findAll();
     }
 
-    public Survey getSurvey(String id) {
+    public Survey getSurvey(Long id) {
         Optional<Survey> dbResponse = database.findById(id);
         return dbResponse.isEmpty() ? null : dbResponse.get();
     }

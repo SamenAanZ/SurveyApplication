@@ -1,36 +1,30 @@
 package SurveyService.Model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class Survey {
+
     @Id
-    private String formId;
-    private String answerUrl;
+    @GeneratedValue
+    private Long id;
     private String title;
     private String description;
 
-    public Survey(String id, String url, String title, String description) {
-        this.formId = id;
-        this.answerUrl = url;
+    public Survey(String title, String description) {
         this.title = title;
         this.description = description;
     }
 
     public Survey() {}
 
-    public String getFormId() {
-        return this.formId;
+    public Long getId() {
+        return this.id;
     }
-    public void setFormId(String id) {
-        this.formId = id;
-    }
-    public String getAnswerUrl() {
-        return this.answerUrl;
-    }
-    public void setAnswerUrl(String answerUrl) {
-        this.answerUrl = answerUrl;
+    public void setId(Long id) {
+        this.id = id;
     }
     public String getTitle() {
         return this.title;
