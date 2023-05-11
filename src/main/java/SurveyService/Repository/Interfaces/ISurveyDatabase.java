@@ -1,6 +1,6 @@
-package SpringbootApp.Repository.Interfaces;
+package SurveyService.Repository.Interfaces;
 
-import SpringbootApp.Model.Survey;
+import SurveyService.Model.Survey;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ISurveyDatabase extends CrudRepository<Survey, String> {

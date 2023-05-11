@@ -1,4 +1,4 @@
-package SpringbootApp.Model.DTO;
+package SurveyService.Model.DTO;
 
 public class InitialSurveyRequest {
     private String title;

@@ -1,4 +1,4 @@
-package SpringbootApp.Model;
+package SurveyService.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

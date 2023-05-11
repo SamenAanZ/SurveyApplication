@@ -1,9 +1,9 @@
-package SpringbootApp.Services;
+package SurveyService.Services;
 
-import SpringbootApp.Interfaces.IFormsService;
-import SpringbootApp.Interfaces.IGoogleFormService;
-import SpringbootApp.Interfaces.ISurveyRepository;
-import SpringbootApp.Model.Survey;
+import SurveyService.Interfaces.IFormsService;
+import SurveyService.Interfaces.IGoogleFormService;
+import SurveyService.Interfaces.ISurveyRepository;
+import SurveyService.Model.Survey;
 import com.google.api.services.forms.v1.model.Form;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

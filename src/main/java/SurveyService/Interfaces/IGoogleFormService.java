@@ -1,4 +1,4 @@
-package SpringbootApp.Interfaces;
+package SurveyService.Interfaces;
 
 import com.google.api.services.forms.v1.model.Form;
 

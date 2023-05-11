@@ -1,8 +1,8 @@
-package SpringbootApp.Repository;
+package SurveyService.Repository;
 
-import SpringbootApp.Interfaces.ISurveyRepository;
-import SpringbootApp.Model.Survey;
-import SpringbootApp.Repository.Interfaces.ISurveyDatabase;
+import SurveyService.Interfaces.ISurveyRepository;
+import SurveyService.Model.Survey;
+import SurveyService.Repository.Interfaces.ISurveyDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

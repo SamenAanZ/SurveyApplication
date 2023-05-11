@@ -1,8 +1,8 @@
-package SpringbootApp.Controllers;
+package SurveyService.Controllers;
 
-import SpringbootApp.Interfaces.IFormsService;
-import SpringbootApp.Model.DTO.InitialSurveyRequest;
-import SpringbootApp.Model.Survey;
+import SurveyService.Interfaces.IFormsService;
+import SurveyService.Model.DTO.InitialSurveyRequest;
+import SurveyService.Model.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/survey")
 public class SurveyController {

@@ -1,6 +1,6 @@
-package SpringbootApp.Interfaces;
+package SurveyService.Interfaces;
 
-import SpringbootApp.Model.Survey;
+import SurveyService.Model.Survey;
 
 import java.io.IOException;
 import java.util.List;

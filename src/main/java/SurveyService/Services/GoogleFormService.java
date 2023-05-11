@@ -1,6 +1,6 @@
-package SpringbootApp.Services;
+package SurveyService.Services;
 
-import SpringbootApp.Interfaces.IGoogleFormService;
+import SurveyService.Interfaces.IGoogleFormService;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -57,7 +57,6 @@ public class GoogleFormService implements IGoogleFormService {
         Form form = new Form();
         form.setInfo(new Info());
         form.getInfo().setTitle("This is the default form title");
-
         form = formsService.forms().create(form)
                 .setAccessToken(token)
                 .execute();
