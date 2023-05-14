@@ -13,15 +13,17 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'com.google.apis:google-api-services-forms:v1-rev20220908-2.0.0'
-    implementation 'com.google.apis:google-api-services-drive:v3-rev20230212-2.0.0'
-    implementation 'com.google.api-client:google-api-client-jackson2:1.28.1'
-    implementation 'com.google.auth:google-auth-library-oauth2-http:1.5.3'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    runtimeOnly 'com.mysql:mysql-connector-j:8.0.32'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'com.h2database:h2:2.1.214'
+
+    runtimeOnly 'com.mysql:mysql-connector-j:8.0.32'
+
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
 }
 
 test {

@@ -1,41 +1,30 @@
 package SurveyService.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
+@Getter @Setter @NoArgsConstructor
 public class Survey {
 
     @Id
-    @GeneratedValue
-    private Long id;
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid2")
+    private String id;
+    private String name;
     private String title;
-    private String description;
 
-    public Survey(String title, String description) {
+    @ElementCollection
+    private List<Question> questions;
+
+    public Survey(String name, String title, List<Question> questions) {
+        this.name = name;
         this.title = title;
-        this.description = description;
-    }
-
-    public Survey() {}
-
-    public Long getId() {
-        return this.id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getTitle() {
-        return this.title;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    public String getDescription() {
-        return this.description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
+        this.questions = questions;
     }
 }

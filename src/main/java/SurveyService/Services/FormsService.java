@@ -2,12 +2,12 @@ package SurveyService.Services;
 
 import SurveyService.Interfaces.IFormsService;
 import SurveyService.Interfaces.ISurveyRepository;
+import SurveyService.Model.Question;
 import SurveyService.Model.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class FormsService implements IFormsService {
@@ -18,9 +18,8 @@ public class FormsService implements IFormsService {
         this.surveyRepository = surveyRepository;
     }
 
-    public Long createNewForm(String title, String description) {
-        Survey createdSurvey = surveyRepository.createSurvey(new Survey(title, description));
-        System.out.println(createdSurvey.getId());
+    public String createNewForm(String title, String description, List<Question> questions) {
+        Survey createdSurvey = surveyRepository.createSurvey(new Survey(title, description, questions));
         return createdSurvey.getId();
     }
 
@@ -28,7 +27,7 @@ public class FormsService implements IFormsService {
         return surveyRepository.getSurveys();
     }
 
-    public Survey getForm(Long id) {
+    public Survey getForm(String id) {
         return surveyRepository.getSurvey(id);
     }
 

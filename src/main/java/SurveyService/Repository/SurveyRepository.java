@@ -33,7 +33,7 @@ public class SurveyRepository implements ISurveyRepository {
         return (List<Survey>) database.findAll();
     }
 
-    public Survey getSurvey(Long id) {
+    public Survey getSurvey(String id) {
         Optional<Survey> dbResponse = database.findById(id);
         return dbResponse.isEmpty() ? null : dbResponse.get();
     }

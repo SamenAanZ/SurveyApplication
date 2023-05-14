@@ -6,5 +6,4 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface ISurveyDatabase extends CrudRepository<Survey, String> {
-    Optional<Survey> findById(Long id);
 }

@@ -1,12 +1,13 @@
 package SurveyService.Interfaces;
 
+import SurveyService.Model.Question;
 import SurveyService.Model.Survey;
 
 import java.io.IOException;
 import java.util.List;
 
 public interface IFormsService {
-    Long createNewForm(String title, String description) throws IOException;
+    String createNewForm(String title, String description, List<Question> questions) throws IOException;
     List<Survey> getForms();
-    Survey getForm(Long id);
+    Survey getForm(String  id);
 }
