@@ -6,13 +6,10 @@ import ResponseService.Repository.Interfaces.IResponseDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
-import java.util.List;
-
 @Repository
 public class ResponseRepository implements IResponseRepository {
 
-    private IResponseDatabase database;
+    IResponseDatabase database;
 
     @Autowired
     public ResponseRepository(IResponseDatabase database) {
@@ -26,10 +23,10 @@ public class ResponseRepository implements IResponseRepository {
     public boolean createResponse(Response response) {
         try {
             database.save(response);
+            return true;
         } catch (Exception exception) {
             System.out.println(exception);
             return false;
         }
-        return true;
     }
 }

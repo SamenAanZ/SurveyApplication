@@ -29,7 +29,7 @@ public class ResponseController {
 
         if(responses == null) return ResponseEntity.badRequest().build();
 
-        ResponseListDTO returnData = new ResponseListDTO(responses.getTotalResponses(), responses.getResponses());
+        ResponseListDTO returnData = new ResponseListDTO(responses.getTotalResponses(), responses.getAnswers());
         return ResponseEntity.ok(returnData);
     }
 

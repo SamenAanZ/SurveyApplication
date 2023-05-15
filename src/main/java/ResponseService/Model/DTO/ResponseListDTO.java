@@ -1,16 +1,18 @@
 package ResponseService.Model.DTO;
 
-import ResponseService.Model.Response;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
+import java.util.Map;
 
 @Getter @Setter
 public class ResponseListDTO {
     private int totalResponses;
-    private Response[] responses;
+    private List<Map<String, String>> answers;
 
-    public ResponseListDTO(int totalResponses, Response[] responses) {
+    public ResponseListDTO(int totalResponses, List<Map<String, String>> answers) {
         this.totalResponses = totalResponses;
-        this.responses = responses;
+        this.answers= answers;
     }
 }
