@@ -7,5 +7,5 @@ import java.util.List;
 public interface ISurveyRepository {
     Survey createSurvey(Survey survey);
     List<Survey> getSurveys();
-    Survey getSurvey(Long id);
+    Survey getSurvey(String id);
 }

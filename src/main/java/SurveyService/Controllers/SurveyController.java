@@ -1,21 +1,22 @@
 package SurveyService.Controllers;
 
 import SurveyService.Interfaces.IFormsService;
-import SurveyService.Model.DTO.InitialSurveyRequest;
+import SurveyService.Model.DTO.SurveyDTO;
 import SurveyService.Model.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/survey")
 public class SurveyController {
-
 
     private IFormsService formsService;
 
@@ -31,25 +32,38 @@ public class SurveyController {
         if(surveys == null) return ResponseEntity.badRequest().build();
         if(surveys.isEmpty()) return ResponseEntity.noContent().build();
 
-        return ResponseEntity.ok(surveys);
+        List<SurveyDTO> returnData = new ArrayList<>();
+        for (Survey survey : surveys) {
+            SurveyDTO surveyDTO = new SurveyDTO(survey.getName(), survey.getTitle(), survey.getQuestions());
+            returnData.add(surveyDTO);
+        }
+
+        if (returnData.size() != surveys.size()) {
+            System.out.println("Something went wrong trying to map surveys. Retrieved size: " + surveys.size() + ", DTO size: " + returnData.size());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+        return ResponseEntity.ok(returnData);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getSurvey(@PathVariable(value = "id") Long id) {
+    public ResponseEntity getSurvey(@PathVariable(value = "id") String id) {
         if(id == null) return ResponseEntity.badRequest().build();
 
         Survey survey = formsService.getForm(id);
 
         if(survey == null) return ResponseEntity.notFound().build();
 
-        return ResponseEntity.ok(survey);
+        SurveyDTO returnData = new SurveyDTO(survey.getName(), survey.getTitle(), survey.getQuestions());
+
+        return ResponseEntity.ok(returnData);
     }
 
     @PostMapping
-    public ResponseEntity createSurvey(@RequestBody (required = false) InitialSurveyRequest data) throws GeneralSecurityException, IOException {
+    public ResponseEntity createSurvey(@RequestBody (required = false) SurveyDTO data) throws GeneralSecurityException, IOException {
         if(data == null) return ResponseEntity.badRequest().build();
 
-        Long formId = formsService.createNewForm(data.getTitle(), data.getDescription());
+        String formId = formsService.createNewForm(data.getName(), data.getTitle(), data.getElements());
 
         if(formId == null) return ResponseEntity.badRequest().build();
 
