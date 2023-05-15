@@ -6,6 +6,9 @@ import ResponseService.Repository.Interfaces.IResponseDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
+import java.util.List;
+
 @Repository
 public class ResponseRepository implements IResponseRepository {
 
@@ -14,6 +17,10 @@ public class ResponseRepository implements IResponseRepository {
     @Autowired
     public ResponseRepository(IResponseDatabase database) {
         this.database = database;
+    }
+
+    public Response[] getResponses(String surveyId) {
+        return database.findAllBySurveyId(surveyId);
     }
 
     public boolean createResponse(Response response) {
