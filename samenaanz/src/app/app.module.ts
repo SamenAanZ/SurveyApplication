@@ -12,20 +12,12 @@ import { QuestionnairesComponent } from './views/questionnaires/questionnaires.c
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CreateQuestionnaireComponent } from './views/create-questionnaire/create-questionnaire.component';
 
-// Nebula
-import { NbThemeModule, NbLayoutModule, NbSidebarModule, NbButtonModule } from '@nebular/theme';
-import { NbMenuModule } from '@nebular/theme';
-import { NbUserModule } from '@nebular/theme';
-import { NbEvaIconsModule } from '@nebular/eva-icons';
-import { NbTabsetModule, NbTabComponent } from '@nebular/theme';
-
 // Keycloak
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initializeKeycloak } from './auth/app.init';
 import { HomeComponent } from './views/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ProfileComponent } from './views/profile/profile.component';
-import { QuestionnaireResultsComponent } from './views/questionnaire-results/questionnaire-results.component';
 
 @NgModule({
   declarations: [
@@ -35,23 +27,14 @@ import { QuestionnaireResultsComponent } from './views/questionnaire-results/que
     CreateQuestionnaireComponent,
     HomeComponent,
     HeaderComponent,
-    ProfileComponent,
-    QuestionnaireResultsComponent
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    NbThemeModule.forRoot({ name: 'default' }),
-    NbLayoutModule,
-    NbEvaIconsModule,
-    NbSidebarModule.forRoot(),
-    NbButtonModule,
-    NbMenuModule.forRoot(),
-    NbUserModule,
-    KeycloakAngularModule,
-    NbTabsetModule
+    KeycloakAngularModule
   ],
   providers: [
     {
