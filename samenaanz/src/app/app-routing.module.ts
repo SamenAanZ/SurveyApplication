@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: 'home', pathMatch: 'full', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'questionnaires', component: QuestionnairesComponent, canActivate: [AuthGuard] },
-  { path: 'create-questionnaire', component: CreateQuestionnaireComponent, canActivate: [AuthGuard], data: { roles: [ApplicationRole.Manager, ApplicationRole.Researcher]} },
+  { path: 'create-questionnaire', pathMatch: 'full', component: CreateQuestionnaireComponent, canActivate: [AuthGuard], data: { roles: [ApplicationRole.Manager, ApplicationRole.Researcher]} },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
 ];
 

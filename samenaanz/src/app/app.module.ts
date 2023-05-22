@@ -6,6 +6,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { APP_INITIALIZER } from '@angular/core';
 
+// SurveyJS
+import { SurveyModule } from 'survey-angular-ui';
+import { SurveyCreatorModule } from 'survey-creator-angular';
+
 // Custom components
 import { AppComponent } from './app.component';
 import { QuestionnairesComponent } from './views/questionnaires/questionnaires.component';
@@ -34,7 +38,9 @@ import { ProfileComponent } from './views/profile/profile.component';
     FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    KeycloakAngularModule
+    KeycloakAngularModule,
+    SurveyModule,
+    SurveyCreatorModule
   ],
   providers: [
     {

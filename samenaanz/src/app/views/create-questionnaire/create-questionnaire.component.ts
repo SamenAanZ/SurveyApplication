@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import {QuestionnaireService} from "../../services/questionnaire.service";
+import { SurveyCreatorModel } from 'survey-creator-core';
+import { surveyCreatorSettings } from 'src/environments/environment';
+import { defaultSurveyCreatorTemplate } from 'src/environments/environment';
+import { SurveyLocalStorageService } from 'src/app/services/survey-local-storage.service';
 
 @Component({
   selector: 'app-create-questionnaire',
@@ -7,27 +10,37 @@ import {QuestionnaireService} from "../../services/questionnaire.service";
   styleUrls: ['./create-questionnaire.component.scss']
 })
 export class CreateQuestionnaireComponent {
+  public selectedSurvey: string | null = null;
+  public surveyCreatorModel: SurveyCreatorModel;
 
-  private readonly questionnaireService: QuestionnaireService;
-
-  public inputTitle: string | undefined;
-  public inputDescription: string | undefined;
-
-  public constructor(questionnaireService: QuestionnaireService) {
-    this.questionnaireService = questionnaireService;
+  constructor(private readonly localSurveyService: SurveyLocalStorageService){
+    // Configure surveyJS creator
+    this.surveyCreatorModel = this.configureCreator();
   }
 
-  public async Create(): Promise<void> {
-    if(!this.inputTitle || this.inputTitle.trim().length === 0) {
-      return;
+  public loadSurvey(): void {
+    alert(this.selectedSurvey);
+  }
+
+  private configureCreator(): SurveyCreatorModel{
+    // Creates the default survey to show
+    const creator = new SurveyCreatorModel(surveyCreatorSettings);
+
+    // Show a save button if auto-save has been disabled
+    if (!surveyCreatorSettings.isAutoSave)
+      creator.showSaveButton = true;
+
+    // Assign the saved surveyJson. If it does not exist, then use the default JSON template.
+    creator.text = this.localSurveyService.getItem(this.localSurveyService.localSurveyId) || JSON.stringify(defaultSurveyCreatorTemplate);
+
+    // When the survey is saved in the editor, it is stored in localstorage
+    creator.saveSurveyFunc = (surveyNumber: number, callback: Function) => {
+
+      this.localSurveyService.setItem(this.localSurveyService.localSurveyId, creator.text);
+      callback(surveyNumber, true);
+      this.surveyCreatorModel = creator;
     }
 
-    if(!this.inputDescription || this.inputDescription.trim().length === 0) {
-      return;
-    }
-
-    await this.questionnaireService.Create(this.inputTitle, this.inputDescription);
-
-    this.inputTitle = this.inputDescription = undefined;
+    return creator;
   }
 }

@@ -19,7 +19,7 @@
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <li><a routerLink="/home" class="nav-link px-2 link-secondary">Home</a></li>
-        <li><a routerLink="/questionnaires" class="nav-link px-2">Questionnaires</a></li>
+        <li *ngIf="isRoleAllowed('Employee')"><a routerLink="/questionnaires" class="nav-link px-2">Questionnaires</a></li>
         <li *ngIf="isRoleAllowed('Manager') || isRoleAllowed('Researcher')"><a routerLink="/create-questionnaire" class="nav-link px-2">Create</a></li>
         <li *ngIf="isRoleAllowed('Researcher')"><a routerLink="/questionnaire-results" class="nav-link px-2">Results</a></li>
       </ul>
