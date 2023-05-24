@@ -22,6 +22,8 @@ import { initializeKeycloak } from './auth/app.init';
 import { HomeComponent } from './views/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ProfileComponent } from './views/profile/profile.component';
+import { QuestionnaireDetailComponent } from './views/questionnaire-detail/questionnaire-detail.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { ProfileComponent } from './views/profile/profile.component';
     CreateQuestionnaireComponent,
     HomeComponent,
     HeaderComponent,
-    ProfileComponent
+    ProfileComponent,
+    QuestionnaireDetailComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

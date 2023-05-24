@@ -3,6 +3,7 @@ import {QuestionnaireService} from "../../services/questionnaire.service";
 import {Questionnaire} from "../../services/questionnaire";
 import {Mutation} from "../../services/mutation";
 import {Subscription} from "rxjs";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-questionnaires',
@@ -16,7 +17,7 @@ export class QuestionnairesComponent implements OnInit, OnDestroy {
   private readonly questionnaireService: QuestionnaireService;
   public questionnaires: readonly Questionnaire[];
 
-  public constructor(questionnaireService: QuestionnaireService) {
+  constructor(private readonly router: Router, questionnaireService: QuestionnaireService) {
     this.questionnaireService = questionnaireService;
     this.questionnaires = [];
   }
@@ -37,5 +38,10 @@ export class QuestionnairesComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+  }
+
+  public viewQuestionnaireDetails(questionnaire: Questionnaire) {
+    console.log(questionnaire.id);
+    this.router.navigate(['/questionnaires', questionnaire.id]);
   }
 }

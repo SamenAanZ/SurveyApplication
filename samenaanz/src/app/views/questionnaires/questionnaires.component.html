@@ -20,9 +20,9 @@
         </thead>
       <!-- Table rows -->
       <tbody>
-        <tr *ngFor="let q of questionnaires">
+        <tr *ngFor="let q of questionnaires" (click)="viewQuestionnaireDetails(q)">
           <th scope="row">{{ q.id }}</th>
-          <td><a [href]="q.answerUrl">{{ q.title }}</a></td>
+          <td><a [href]="q.id">{{ q.title }}</a></td>
           <td>{{ q.description }}</td>
         </tr>
       </tbody>
