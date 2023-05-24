@@ -7,7 +7,8 @@ import { KeycloakService } from 'keycloak-angular';
 export class KeycloakProviderService {
   private decodedAccessToken: any;
 
-  constructor(public readonly keycloakService: KeycloakService) {
+  constructor(
+    public readonly keycloakService: KeycloakService) {
       const encodedToken = this.keycloakService.getKeycloakInstance().token;
       this.decodedAccessToken = this.decodeAccessToken(encodedToken || '');
 

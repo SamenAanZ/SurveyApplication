@@ -28,8 +28,17 @@ export class AuthGuard extends KeycloakAuthGuard {
       return true;
     }
 
-    // Allow the user to proceed if one of required roles are present.
-    return requiredRoles.some((role) => this.roles.includes(role));
+    // Check if required role exists
+    const hasRequiredRole = requiredRoles.some((role) => this.roles.includes(role));
     //return requiredRoles.every((role) => this.roles.includes(role));
+
+    // If user does not have the required role, redirect to unauthorized page
+    if (!hasRequiredRole)
+    {
+      await this.router.navigate(['/unauthorized']);
+      return false;
+    }
+
+    return true;
   }
 }

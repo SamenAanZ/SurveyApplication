@@ -24,6 +24,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { ProfileComponent } from './views/profile/profile.component';
 import { QuestionnaireDetailComponent } from './views/questionnaire-detail/questionnaire-detail.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     HeaderComponent,
     ProfileComponent,
     QuestionnaireDetailComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    UnauthorizedComponent
   ],
   imports: [
     BrowserModule,
