@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,7 +20,8 @@ public class Survey {
     private String name;
     private String title;
 
-    @ElementCollection
+    @Column(columnDefinition = "json")
+    @Type(type = "json")
     private List<Question> questions;
 
     public Survey(String name, String title, List<Question> questions) {
