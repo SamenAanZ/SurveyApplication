@@ -22,6 +22,7 @@ public class Survey {
 
     @Column(columnDefinition = "json")
     @Type(type = "json")
+    @ElementCollection
     private List<Question> questions;
 
     public Survey(String name, String title, List<Question> questions) {

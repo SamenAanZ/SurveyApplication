@@ -3,12 +3,10 @@ package SurveyApplication.SurveyService.Services;
 import SurveyApplication.SurveyService.Interfaces.IFormsService;
 import SurveyApplication.SurveyService.Interfaces.ISurveyRepository;
 import SurveyApplication.SurveyService.Model.Question;
-import SurveyApplication.SurveyService.Model.RadioQuestion;
 import SurveyApplication.SurveyService.Model.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,16 +19,7 @@ public class FormsService implements IFormsService {
     }
 
     public String createNewForm(String title, String description, List<Question> questions) {
-        List<Question> questionList = new ArrayList<>();
-        for (Question question : questions) {
-            switch (question.getType()) {
-                case RADIOGROUP:
-                    RadioQuestion radioQuestion = (RadioQuestion) question;
-                    questionList.add(new RadioQuestion(radioQuestion, radioQuestion.getChoices()));
-            }
-        }
-
-        Survey createdSurvey = surveyRepository.createSurvey(new Survey(title, description, questionList));
+        Survey createdSurvey = surveyRepository.createSurvey(new Survey(title, description, questions));
         if (createdSurvey == null) return null;
         return createdSurvey.getId();
     }
@@ -40,9 +29,7 @@ public class FormsService implements IFormsService {
     }
 
     public Survey getForm(String id) {
-        Survey survey = surveyRepository.getSurvey(id);
-        System.out.println(survey);
-        return survey;
+        return surveyRepository.getSurvey(id);
     }
 
 }
