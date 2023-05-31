@@ -25,6 +25,7 @@ import { ProfileComponent } from './views/profile/profile.component';
 import { QuestionnaireDetailComponent } from './views/questionnaire-detail/questionnaire-detail.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
+import { QuestionnaireResultsComponent } from './views/questionnaire-results/questionnaire-results.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { UnauthorizedComponent } from './components/unauthorized/unauthorized.co
     ProfileComponent,
     QuestionnaireDetailComponent,
     NotFoundComponent,
-    UnauthorizedComponent
+    UnauthorizedComponent,
+    QuestionnaireResultsComponent
   ],
   imports: [
     BrowserModule,

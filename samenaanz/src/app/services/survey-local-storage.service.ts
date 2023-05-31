@@ -12,6 +12,10 @@ export class SurveyLocalStorageService {
     localStorage.setItem(key, value);
   }
 
+  public setObject(key: string, value: any): void {
+    localStorage.setItem(key, value);
+  }
+
   public getItem(key: string): string | null {
     const item = localStorage.getItem(key);
     return item;

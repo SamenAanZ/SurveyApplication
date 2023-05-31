@@ -1,8 +1,7 @@
-<p>questionnaire-detail works!</p>
+<div class="justify-content-center text-center mb-3">
+    <h1>{{ questionnaire?.title }}</h1>
+    <span>{{ questionnaire?.description }}</span>
+    <hr>
+  </div>
 
-<ul *ngIf="questionnaire">
-    <li>{{ questionnaire.id }}</li>
-    <li>{{ questionnaire.title }}</li>
-    <li>{{ questionnaire.answerUrl }}</li>
-    <li>{{ questionnaire.description }}</li>
-</ul>
+  <survey [model]="surveyModel"></survey>

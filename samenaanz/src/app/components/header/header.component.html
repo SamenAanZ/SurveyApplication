@@ -21,12 +21,14 @@
         <li><a routerLink="/home" class="nav-link px-2 link-secondary">Home</a></li>
         <li *ngIf="isRoleAllowed('Employee')"><a routerLink="/questionnaires" class="nav-link px-2">Questionnaires</a></li>
         <li *ngIf="isRoleAllowed('Manager') || isRoleAllowed('Researcher')"><a routerLink="/create-questionnaire" class="nav-link px-2">Create</a></li>
-        <li *ngIf="isRoleAllowed('Researcher')"><a routerLink="/questionnaire-results" class="nav-link px-2">Results</a></li>
+        <li *ngIf="isRoleAllowed('Researcher')"><a routerLink="/results" class="nav-link px-2">Results</a></li>
       </ul>
 
       <div *ngIf="isLoggedIn" class="col-md-3 text-end">
         Welcome,<a routerLink="/profile" class="px-2 link-secondary"><b>{{userName}}</b></a>
-        <button type="button" class="btn btn-warning me-2 btn-sm" (click)="logout()">Logout</button>
+        <button type="button" class="btn btn-warning me-2 btn-sm" (click)="logout()">
+          <i class="bi bi-box-arrow-right"></i>
+        </button>
       </div>
     </header>
   </div>

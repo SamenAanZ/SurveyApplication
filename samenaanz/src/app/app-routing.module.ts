@@ -9,6 +9,7 @@ import { ApplicationRole } from './models/application-roles';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { QuestionnaireDetailComponent } from './views/questionnaire-detail/questionnaire-detail.component';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
+import { QuestionnaireResultsComponent } from './views/questionnaire-results/questionnaire-results.component';
 
 const routes: Routes = [
   { path: 'not-found', component: NotFoundComponent, canActivate: [AuthGuard] },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'questionnaires/:id', component: QuestionnaireDetailComponent, canActivate: [AuthGuard], data: { roles: [ApplicationRole.Employee]}  },
   { path: 'create-questionnaire', pathMatch: 'full', component: CreateQuestionnaireComponent, canActivate: [AuthGuard], data: { roles: [ApplicationRole.Manager, ApplicationRole.Researcher]} },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'results', component: QuestionnaireResultsComponent, canActivate: [AuthGuard], data: { roles: [ApplicationRole.Researcher]} },
   { path: '**', redirectTo: 'not-found' }
 ];
 
