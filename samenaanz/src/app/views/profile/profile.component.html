@@ -1,23 +1,31 @@
-<table class="table">
+<div *ngIf="profile">
+  <table class="table">
     <thead>
     <tr>
+      <th scope="col">Id</th>
+      <th scope="col">User Name</th>
       <th scope="col">First Name</th>
       <th scope="col">Last Name</th>
       <th scope="col">Email</th>
+      <th scope="col">Organization</th>
       <th scope="col">Verified?</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-      <td>Test</td>
-      <td>Test</td>
-      <td>test@email.com</td>
-      <td>true</td>
+      <td>{{ profile.id }}</td>
+      <td>{{ profile.username }}</td>
+      <td>{{ profile.firstName }}</td>
+      <td>{{ profile.lastName }}</td>
+      <td>{{ profile.email }}</td>
+      <td>{{ organization }}</td>
+      <td>{{ profile.emailVerified }}</td>
     </tr>
     </tbody>
   </table>
   
   <hr>
   <div class="d-grid gap-2">
-    <button class="btn btn-primary" type="button">Edit Account</button>
+    <button class="btn btn-primary" type="button" (click)="navigateToProfile()">Edit Account</button>
   </div>
+</div>

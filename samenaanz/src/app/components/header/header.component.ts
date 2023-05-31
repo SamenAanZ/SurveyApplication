@@ -15,9 +15,13 @@ export class HeaderComponent implements OnInit {
   constructor(private readonly router: Router, private readonly keycloakService: KeycloakService){}
 
    async ngOnInit(): Promise<void> {
-    await this.keycloakService.loadUserProfile();
     this.isLoggedIn = await this.keycloakService.isLoggedIn();
-    this.userName = this.keycloakService.getUsername();
+
+    if (this.isLoggedIn)
+    {
+      await this.keycloakService.loadUserProfile();
+      this.userName = this.keycloakService.getUsername();
+    }
   }
 
   async logout(): Promise<void>{

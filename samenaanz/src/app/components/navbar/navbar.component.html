@@ -2,8 +2,6 @@
   <div class="collapse navbar-collapse flex-grow-0">
     <ul class="navbar-nav text-right">
       <li *ngIf="profile" class="nav-item active">
-        <nb-user color="grey" name="{{profile.username}}">
-        </nb-user>
         <button class="btn success" (click)="logout()">Logout</button>
       </li>
     </ul>

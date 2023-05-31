@@ -1,0 +1,13 @@
+.custom-select {
+    height: 38px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+  }
+  
+  .custom-button {
+    height: 38px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    min-width: 120px;
+  }

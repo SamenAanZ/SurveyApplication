@@ -6,18 +6,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { APP_INITIALIZER } from '@angular/core';
 
+// SurveyJS
+import { SurveyModule } from 'survey-angular-ui';
+import { SurveyCreatorModule } from 'survey-creator-angular';
+
 // Custom components
 import { AppComponent } from './app.component';
 import { QuestionnairesComponent } from './views/questionnaires/questionnaires.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CreateQuestionnaireComponent } from './views/create-questionnaire/create-questionnaire.component';
-
-// Nebula
-import { NbThemeModule, NbLayoutModule, NbSidebarModule, NbButtonModule } from '@nebular/theme';
-import { NbMenuModule } from '@nebular/theme';
-import { NbUserModule } from '@nebular/theme';
-import { NbEvaIconsModule } from '@nebular/eva-icons';
-import { NbTabsetModule, NbTabComponent } from '@nebular/theme';
 
 // Keycloak
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
@@ -25,6 +22,9 @@ import { initializeKeycloak } from './auth/app.init';
 import { HomeComponent } from './views/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ProfileComponent } from './views/profile/profile.component';
+import { QuestionnaireDetailComponent } from './views/questionnaire-detail/questionnaire-detail.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 import { QuestionnaireResultsComponent } from './views/questionnaire-results/questionnaire-results.component';
 
 @NgModule({
@@ -36,6 +36,9 @@ import { QuestionnaireResultsComponent } from './views/questionnaire-results/que
     HomeComponent,
     HeaderComponent,
     ProfileComponent,
+    QuestionnaireDetailComponent,
+    NotFoundComponent,
+    UnauthorizedComponent,
     QuestionnaireResultsComponent
   ],
   imports: [
@@ -43,15 +46,9 @@ import { QuestionnaireResultsComponent } from './views/questionnaire-results/que
     FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    NbThemeModule.forRoot({ name: 'default' }),
-    NbLayoutModule,
-    NbEvaIconsModule,
-    NbSidebarModule.forRoot(),
-    NbButtonModule,
-    NbMenuModule.forRoot(),
-    NbUserModule,
     KeycloakAngularModule,
-    NbTabsetModule
+    SurveyModule,
+    SurveyCreatorModule
   ],
   providers: [
     {

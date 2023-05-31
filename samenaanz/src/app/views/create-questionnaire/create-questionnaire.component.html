@@ -1,13 +1,24 @@
-<div class="row">
-  <div class="col-2">
-    <div class="form-group">
-      <label for="title">Title</label>
-      <input type="text" class="form-control" id="title" placeholder="Enter title" [(ngModel)]="inputTitle" />
+<div class="justify-content-center text-center mb-3">
+  <h1>Survey Creator</h1>
+  <hr>
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-6 d-flex align-items-center">
+        <select [(ngModel)]="selectedSurvey" class="form-select custom-select me-3" aria-label="Select your survey">
+          <option [value]="null" disabled selected>Select your created surveys</option>
+          <option value="option1">MySurvey 1</option>
+          <option value="option2">MySurvey 2</option>
+          <option value="option3">MySurvey 3</option>
+        </select>
+        <button class="btn btn-primary custom-button" (click)="loadSurvey()">Load survey</button>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="description">Description</label>
-      <input type="text" class="form-control" id="description" placeholder="Enter description" [(ngModel)]="inputDescription" />
-    </div>
-    <button type="button" class="btn btn-primary" (click)="Create()">Create</button>
   </div>
+  
+  <hr>
+</div>
+
+<div id="surveyCreator">
+  <survey-creator [model]="surveyCreatorModel"></survey-creator>
 </div>

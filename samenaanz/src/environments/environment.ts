@@ -12,3 +12,30 @@ export const keycloakEnvironment = {
 export const angularEnvironment = {
     url: "http://localhost:4200"
 }
+
+export const surveyCreatorSettings = {
+    questionTypes: ['radiogroup'],
+    pages: [
+        {
+          name: "page1",
+          elements: []
+        }
+      ],
+    showLogicTab: false,
+    isAutoSave: false,
+    showTimerPanel: false,
+    showPagesToolbox: false,
+    showPropertyGrid: false,
+    showOptions: false,
+    showJSONEditorTab: false,
+    showTranslationTab: false,
+}
+
+export const defaultSurveyCreatorTemplate = {
+    "title": "Demo Survey",
+    "description": "This is a Demo Survey",
+}
+
+export const surveyEndpoints = {
+    URL: ""
+}
