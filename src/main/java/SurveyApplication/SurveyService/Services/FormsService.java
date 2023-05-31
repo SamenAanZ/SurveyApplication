@@ -32,4 +32,8 @@ public class FormsService implements IFormsService {
         return surveyRepository.getSurvey(id);
     }
 
+    public List<Survey> getSurveyByOwnerId(String ownerId) {
+        return surveyRepository.getSurveyByOwnerId(ownerId);
+    }
+
 }

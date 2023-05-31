@@ -6,6 +6,7 @@ import SurveyApplication.SurveyService.Repository.Interfaces.ISurveyDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,5 +43,10 @@ public class SurveyRepository implements ISurveyRepository {
             System.out.println(ex);
             return null;
         }
+    }
+
+    @Override
+    public List<Survey> getSurveyByOwnerId(String ownerId) {
+        return new ArrayList<>(database.findAllByOwnerId(ownerId));
     }
 }

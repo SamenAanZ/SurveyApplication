@@ -9,5 +9,6 @@ import java.util.List;
 public interface IFormsService {
     String createNewForm(Survey survey) throws IOException;
     List<Survey> getForms();
-    Survey getForm(String  id);
+    Survey getForm(String id);
+    List<Survey> getSurveyByOwnerId(String ownerId);
 }
