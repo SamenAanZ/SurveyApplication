@@ -8,5 +8,6 @@ public interface ISurveyRepository {
     Survey createSurvey(Survey survey);
     List<Survey> getSurveys();
     Survey getSurvey(String id);
-    List<Survey> getSurveyByOwnerId(String ownerId);
+    List<Survey> getSurveysByOwnerId(String ownerId);
+    List<Survey> getSurveysByUserId(String userId);
 }

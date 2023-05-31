@@ -33,7 +33,7 @@ public class SurveyController {
         return new Survey(surveyDTO.getName(), surveyDTO.getTitle(), surveyDTO.getDescription(), surveyDTO.getOwnerId(), surveyDTO.getState(), surveyDTO.getUserIds(), surveyDTO.getQuestions());
     }
 
-    @GetMapping(params = "!ownerId")
+    @GetMapping
     public ResponseEntity getSurveys() throws IOException {
         List<Survey> surveys = formsService.getForms();
 
@@ -64,9 +64,23 @@ public class SurveyController {
         return ResponseEntity.ok(toSurveyDTO(survey));
     }
 
-    @GetMapping
+    @GetMapping(params = "ownerId")
     public ResponseEntity getByOwnerId(@RequestParam("ownerId") String ownerId) {
-        List<Survey> surveys = formsService.getSurveyByOwnerId(ownerId);
+        List<Survey> surveys = formsService.getSurveysByOwnerId(ownerId);
+
+        if (surveys.size() <= 0) return ResponseEntity.noContent().build();
+
+        List<SurveyDTO> surveyDTOS = new ArrayList<>();
+        for (Survey survey : surveys) {
+            surveyDTOS.add(toSurveyDTO(survey));
+        }
+
+        return ResponseEntity.ok(surveyDTOS);
+    };
+
+    @GetMapping(params = "userId")
+    public ResponseEntity getByUserId(@RequestParam("userId") String userId) {
+        List<Survey> surveys = formsService.getSurveysByUserId(userId);
 
         if (surveys.size() <= 0) return ResponseEntity.noContent().build();
 

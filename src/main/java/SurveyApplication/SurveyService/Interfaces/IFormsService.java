@@ -10,5 +10,6 @@ public interface IFormsService {
     String createNewForm(Survey survey) throws IOException;
     List<Survey> getForms();
     Survey getForm(String id);
-    List<Survey> getSurveyByOwnerId(String ownerId);
+    List<Survey> getSurveysByOwnerId(String ownerId);
+    List<Survey> getSurveysByUserId(String userId);
 }

@@ -45,8 +45,11 @@ public class SurveyRepository implements ISurveyRepository {
         }
     }
 
-    @Override
-    public List<Survey> getSurveyByOwnerId(String ownerId) {
+    public List<Survey> getSurveysByOwnerId(String ownerId) {
         return new ArrayList<>(database.findAllByOwnerId(ownerId));
+    }
+
+    public List<Survey> getSurveysByUserId(String userId) {
+        return new ArrayList<>(database.findAllByUserIdsContaining(userId));
     }
 }

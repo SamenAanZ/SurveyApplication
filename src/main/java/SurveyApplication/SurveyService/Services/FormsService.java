@@ -32,8 +32,12 @@ public class FormsService implements IFormsService {
         return surveyRepository.getSurvey(id);
     }
 
-    public List<Survey> getSurveyByOwnerId(String ownerId) {
-        return surveyRepository.getSurveyByOwnerId(ownerId);
+    public List<Survey> getSurveysByOwnerId(String ownerId) {
+        return surveyRepository.getSurveysByOwnerId(ownerId);
+    }
+
+    public List<Survey> getSurveysByUserId(String userId) {
+        return surveyRepository.getSurveysByUserId(userId);
     }
 
 }
