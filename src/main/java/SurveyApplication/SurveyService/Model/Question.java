@@ -18,6 +18,8 @@ import java.util.List;
 public class Question {
     private String name;
     private String title;
+
+    @Enumerated(EnumType.STRING)
     private QuestionType type;
     private boolean isRequired;
 

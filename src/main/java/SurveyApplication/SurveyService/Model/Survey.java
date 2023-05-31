@@ -24,6 +24,7 @@ public class Survey {
     private String description;
     private String ownerId;
 
+    @Enumerated(EnumType.STRING)
     private SurveyState state;
 
     @ElementCollection
