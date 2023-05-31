@@ -34,7 +34,13 @@ public class SurveyRepository implements ISurveyRepository {
     }
 
     public Survey getSurvey(String id) {
-        Optional<Survey> dbResponse = database.findById(id);
-        return dbResponse.isEmpty() ? null : dbResponse.get();
+        try {
+            Optional<Survey> dbResponse = database.findById(id);
+            System.out.println(dbResponse.get().getUserIds());
+            return dbResponse.isEmpty() ? null : dbResponse.get();
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return null;
+        }
     }
 }

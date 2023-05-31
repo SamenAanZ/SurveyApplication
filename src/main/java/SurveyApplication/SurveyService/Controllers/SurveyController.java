@@ -26,7 +26,11 @@ public class SurveyController {
     }
 
     private SurveyDTO toSurveyDTO(Survey survey) {
-        return new SurveyDTO(survey.getName(), survey.getTitle(), survey.getQuestions());
+        return new SurveyDTO(survey.getId(), survey.getName(), survey.getTitle(), survey.getDescription(), survey.getOwnerId(), survey.getState(), survey.getUserIds(), survey.getQuestions());
+    }
+
+    private Survey toSurvey(SurveyDTO surveyDTO) {
+        return new Survey(surveyDTO.getName(), surveyDTO.getTitle(), surveyDTO.getDescription(), surveyDTO.getOwnerId(), surveyDTO.getState(), surveyDTO.getUserIds(), surveyDTO.getQuestions());
     }
 
     @GetMapping
@@ -64,8 +68,7 @@ public class SurveyController {
     public ResponseEntity createSurvey(@RequestBody (required = false) SurveyDTO data) throws GeneralSecurityException, IOException {
         if(data == null) return ResponseEntity.badRequest().build();
 
-
-        String formId = formsService.createNewForm(data.getName(), data.getTitle(), data.getElements());
+        String formId = formsService.createNewForm(toSurvey(data));
 
         if(formId == null) return ResponseEntity.badRequest().build();
 

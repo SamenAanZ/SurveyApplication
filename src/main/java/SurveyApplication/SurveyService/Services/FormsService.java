@@ -18,8 +18,8 @@ public class FormsService implements IFormsService {
         this.surveyRepository = surveyRepository;
     }
 
-    public String createNewForm(String title, String description, List<Question> questions) {
-        Survey createdSurvey = surveyRepository.createSurvey(new Survey(title, description, questions));
+    public String createNewForm(Survey survey) {
+        Survey createdSurvey = surveyRepository.createSurvey(survey);
         if (createdSurvey == null) return null;
         return createdSurvey.getId();
     }
