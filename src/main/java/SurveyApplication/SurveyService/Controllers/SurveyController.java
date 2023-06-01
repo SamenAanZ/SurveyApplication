@@ -4,8 +4,8 @@ import SurveyApplication.SurveyService.Interfaces.IFormsService;
 import SurveyApplication.SurveyService.Model.DTO.QuestionDTO;
 import SurveyApplication.SurveyService.Model.DTO.SurveyDTO;
 import SurveyApplication.SurveyService.Model.Question;
-import SurveyApplication.SurveyService.Model.QuestionType;
 import SurveyApplication.SurveyService.Model.Survey;
+import SurveyApplication.SurveyService.Model.SurveyState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -112,5 +112,22 @@ public class SurveyController {
         if(formId == null) return ResponseEntity.badRequest().build();
 
         return ResponseEntity.ok(formId);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity updateSurveyState (@PathVariable(value = "id") String id, @RequestBody (required = true) String newState) {
+        if(id == null) return ResponseEntity.badRequest().build();
+
+        SurveyState formattedState;
+        try {
+            formattedState = SurveyState.valueOf(newState.trim().toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body("Invalid enum provided. Expected OPEN or CLOSED, got " + newState.toUpperCase());
+        }
+        Survey survey = formsService.changeSurveyState(id, formattedState);
+
+        if(survey == null) return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok(toSurveyDTO(survey));
     }
 }

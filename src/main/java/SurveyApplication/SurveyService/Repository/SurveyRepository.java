@@ -30,6 +30,10 @@ public class SurveyRepository implements ISurveyRepository {
         }
     }
 
+    public Survey updateSurvey(Survey survey) {
+        return database.save(survey);
+    }
+
     public List<Survey> getSurveys() {
         return (List<Survey>) database.findAll();
     }
@@ -37,7 +41,6 @@ public class SurveyRepository implements ISurveyRepository {
     public Survey getSurvey(String id) {
         try {
             Optional<Survey> dbResponse = database.findById(id);
-            System.out.println(dbResponse.get().getUserIds());
             return dbResponse.isEmpty() ? null : dbResponse.get();
         } catch (Exception ex) {
             System.out.println(ex);

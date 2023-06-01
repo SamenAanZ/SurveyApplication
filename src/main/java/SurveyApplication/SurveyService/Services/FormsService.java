@@ -4,6 +4,7 @@ import SurveyApplication.SurveyService.Interfaces.IFormsService;
 import SurveyApplication.SurveyService.Interfaces.ISurveyRepository;
 import SurveyApplication.SurveyService.Model.Question;
 import SurveyApplication.SurveyService.Model.Survey;
+import SurveyApplication.SurveyService.Model.SurveyState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,15 @@ public class FormsService implements IFormsService {
         Survey createdSurvey = surveyRepository.createSurvey(survey);
         if (createdSurvey == null) return null;
         return createdSurvey.getId();
+    }
+
+    public Survey changeSurveyState(String id, SurveyState newState) {
+        Survey survey = surveyRepository.getSurvey(id);
+        if (survey == null) return null;
+
+        survey.setState(newState);
+
+        return surveyRepository.updateSurvey(survey);
     }
 
     public List<Survey> getForms() {
