@@ -1,7 +1,10 @@
 package SurveyApplication.SurveyService.Controllers;
 
 import SurveyApplication.SurveyService.Interfaces.IFormsService;
+import SurveyApplication.SurveyService.Model.DTO.QuestionDTO;
 import SurveyApplication.SurveyService.Model.DTO.SurveyDTO;
+import SurveyApplication.SurveyService.Model.Question;
+import SurveyApplication.SurveyService.Model.QuestionType;
 import SurveyApplication.SurveyService.Model.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,11 +29,19 @@ public class SurveyController {
     }
 
     private SurveyDTO toSurveyDTO(Survey survey) {
-        return new SurveyDTO(survey.getId(), survey.getName(), survey.getTitle(), survey.getDescription(), survey.getOwnerId(), survey.getState(), survey.getUserIds(), survey.getQuestions());
+        List<QuestionDTO> questionDTOs = new ArrayList<>();
+        for (Question question : survey.getQuestions()) {
+            questionDTOs.add(new QuestionDTO(question));
+        }
+        return new SurveyDTO(survey.getId(), survey.getName(), survey.getTitle(), survey.getDescription(), survey.getOwnerId(), survey.getState(), survey.getUserIds(), questionDTOs);
     }
 
     private Survey toSurvey(SurveyDTO surveyDTO) {
-        return new Survey(surveyDTO.getName(), surveyDTO.getTitle(), surveyDTO.getDescription(), surveyDTO.getOwnerId(), surveyDTO.getState(), surveyDTO.getUserIds(), surveyDTO.getQuestions());
+        List<Question> questions = new ArrayList<>();
+        for (QuestionDTO questionDTO : surveyDTO.getQuestions()) {
+            questions.add(new Question(questionDTO));
+        }
+        return new Survey(surveyDTO.getName(), surveyDTO.getTitle(), surveyDTO.getDescription(), surveyDTO.getOwnerId(), surveyDTO.getState(), surveyDTO.getUserIds(), questions);
     }
 
     @GetMapping

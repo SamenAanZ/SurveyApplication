@@ -46,7 +46,7 @@ public class Question {
     public Question(QuestionDTO question) {
         this.name = question.getName();
         this.title = question.getTitle();
-        this.type = question.getType();
+        this.type = QuestionType.valueOf(question.getType().toUpperCase());;
         this.isRequired = question.isRequired();
         this.choices = question.getChoices();
     }
