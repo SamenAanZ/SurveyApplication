@@ -41,7 +41,12 @@ public class SurveyController {
         for (QuestionDTO questionDTO : surveyDTO.getQuestions()) {
             questions.add(new Question(questionDTO));
         }
-        return new Survey(surveyDTO.getName(), surveyDTO.getTitle(), surveyDTO.getDescription(), surveyDTO.getOwnerId(), surveyDTO.getState(), surveyDTO.getUserIds(), questions);
+        if (surveyDTO.getId() == null) {
+            return new Survey(surveyDTO.getName(), surveyDTO.getTitle(), surveyDTO.getDescription(), surveyDTO.getOwnerId(), surveyDTO.getState(), surveyDTO.getUserIds(), questions);
+        } else {
+            return new Survey(surveyDTO.getId(), surveyDTO.getName(), surveyDTO.getTitle(), surveyDTO.getDescription(), surveyDTO.getOwnerId(), surveyDTO.getState(), surveyDTO.getUserIds(), questions);
+        }
+
     }
 
     @GetMapping
@@ -76,7 +81,7 @@ public class SurveyController {
     }
 
     @GetMapping(params = "ownerId")
-    public ResponseEntity getByOwnerId(@RequestParam("ownerId") String ownerId) {
+    public ResponseEntity getSurveysByOwnerId(@RequestParam("ownerId") String ownerId) {
         List<Survey> surveys = formsService.getSurveysByOwnerId(ownerId);
 
         if (surveys.size() <= 0) return ResponseEntity.noContent().build();
@@ -90,7 +95,7 @@ public class SurveyController {
     };
 
     @GetMapping(params = "userId")
-    public ResponseEntity getByUserId(@RequestParam("userId") String userId) {
+    public ResponseEntity getSurveysByUserId(@RequestParam("userId") String userId) {
         List<Survey> surveys = formsService.getSurveysByUserId(userId);
 
         if (surveys.size() <= 0) return ResponseEntity.noContent().build();
