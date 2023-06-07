@@ -1,8 +1,11 @@
 package SurveyApplication.SurveyService.Controllers;
 
 import SurveyApplication.SurveyService.Interfaces.IFormsService;
+import SurveyApplication.SurveyService.Model.DTO.QuestionDTO;
 import SurveyApplication.SurveyService.Model.DTO.SurveyDTO;
+import SurveyApplication.SurveyService.Model.Question;
 import SurveyApplication.SurveyService.Model.Survey;
+import SurveyApplication.SurveyService.Model.SurveyState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +28,27 @@ public class SurveyController {
         this.formsService = formsService;
     }
 
+    private SurveyDTO toSurveyDTO(Survey survey) {
+        List<QuestionDTO> questionDTOs = new ArrayList<>();
+        for (Question question : survey.getQuestions()) {
+            questionDTOs.add(new QuestionDTO(question));
+        }
+        return new SurveyDTO(survey.getId(), survey.getName(), survey.getTitle(), survey.getDescription(), survey.getOwnerId(), survey.getState(), survey.getUserIds(), questionDTOs);
+    }
+
+    private Survey toSurvey(SurveyDTO surveyDTO) {
+        List<Question> questions = new ArrayList<>();
+        for (QuestionDTO questionDTO : surveyDTO.getQuestions()) {
+            questions.add(new Question(questionDTO));
+        }
+        if (surveyDTO.getId() == null) {
+            return new Survey(surveyDTO.getName(), surveyDTO.getTitle(), surveyDTO.getDescription(), surveyDTO.getOwnerId(), surveyDTO.getState(), surveyDTO.getUserIds(), questions);
+        } else {
+            return new Survey(surveyDTO.getId(), surveyDTO.getName(), surveyDTO.getTitle(), surveyDTO.getDescription(), surveyDTO.getOwnerId(), surveyDTO.getState(), surveyDTO.getUserIds(), questions);
+        }
+
+    }
+
     @GetMapping
     public ResponseEntity getSurveys() throws IOException {
         List<Survey> surveys = formsService.getForms();
@@ -34,8 +58,7 @@ public class SurveyController {
 
         List<SurveyDTO> returnData = new ArrayList<>();
         for (Survey survey : surveys) {
-            SurveyDTO surveyDTO = new SurveyDTO(survey.getName(), survey.getTitle(), survey.getQuestions());
-            returnData.add(surveyDTO);
+            returnData.add(toSurveyDTO(survey));
         }
 
         if (returnData.size() != surveys.size()) {
@@ -54,19 +77,62 @@ public class SurveyController {
 
         if(survey == null) return ResponseEntity.notFound().build();
 
-        SurveyDTO returnData = new SurveyDTO(survey.getName(), survey.getTitle(), survey.getQuestions());
-
-        return ResponseEntity.ok(returnData);
+        return ResponseEntity.ok(toSurveyDTO(survey));
     }
+
+    @GetMapping(params = "ownerId")
+    public ResponseEntity getSurveysByOwnerId(@RequestParam("ownerId") String ownerId) {
+        List<Survey> surveys = formsService.getSurveysByOwnerId(ownerId);
+
+        if (surveys.size() <= 0) return ResponseEntity.noContent().build();
+
+        List<SurveyDTO> surveyDTOS = new ArrayList<>();
+        for (Survey survey : surveys) {
+            surveyDTOS.add(toSurveyDTO(survey));
+        }
+
+        return ResponseEntity.ok(surveyDTOS);
+    };
+
+    @GetMapping(params = "userId")
+    public ResponseEntity getSurveysByUserId(@RequestParam("userId") String userId) {
+        List<Survey> surveys = formsService.getSurveysByUserId(userId);
+
+        if (surveys.size() <= 0) return ResponseEntity.noContent().build();
+
+        List<SurveyDTO> surveyDTOS = new ArrayList<>();
+        for (Survey survey : surveys) {
+            surveyDTOS.add(toSurveyDTO(survey));
+        }
+
+        return ResponseEntity.ok(surveyDTOS);
+    };
 
     @PostMapping
     public ResponseEntity createSurvey(@RequestBody (required = false) SurveyDTO data) throws GeneralSecurityException, IOException {
         if(data == null) return ResponseEntity.badRequest().build();
 
-        String formId = formsService.createNewForm(data.getName(), data.getTitle(), data.getElements());
+        String formId = formsService.createNewForm(toSurvey(data));
 
         if(formId == null) return ResponseEntity.badRequest().build();
 
         return ResponseEntity.ok(formId);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity updateSurveyState (@PathVariable(value = "id") String id, @RequestBody (required = true) String newState) {
+        if(id == null) return ResponseEntity.badRequest().build();
+
+        SurveyState formattedState;
+        try {
+            formattedState = SurveyState.valueOf(newState.trim().toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body("Invalid enum provided. Expected OPEN or CLOSED, got " + newState.toUpperCase());
+        }
+        Survey survey = formsService.changeSurveyState(id, formattedState);
+
+        if(survey == null) return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok(toSurveyDTO(survey));
     }
 }
