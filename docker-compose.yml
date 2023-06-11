@@ -1,0 +1,10 @@
+services:
+  surveys:
+    build: ./SurveyService
+    ports: 
+      - "8081:8081"
+  responses:
+    build: ./ResponseService
+    ports: 
+      - "8082:8082"
+    
