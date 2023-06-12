@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/response")
@@ -34,16 +36,11 @@ public class ResponseController {
     }
 
     @PostMapping
-    public ResponseEntity createResponse(@RequestBody (required = true) SurveyResponseDTO data) {
+    public ResponseEntity createResponse(@RequestBody (required = true) SurveyResponseDTO data) throws IOException {
         if(data == null) return ResponseEntity.badRequest().build();
 
-        boolean responseCreated = responseService.createResponse(data.getSurveyId(), data.getAnswers());
+        responseService.verifyResponse(data.getSurveyId(), data.getAnswers());
 
-        if(responseCreated) {
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok().build();
     }
-
 }

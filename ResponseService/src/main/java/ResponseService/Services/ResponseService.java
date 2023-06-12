@@ -2,11 +2,15 @@ package ResponseService.Services;
 
 import ResponseService.Interfaces.IResponseRepository;
 import ResponseService.Interfaces.IResponseService;
+import ResponseService.Model.DTO.ResponseMessage;
 import ResponseService.Model.Response;
 import ResponseService.Model.ResponseList;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,12 +19,12 @@ import java.util.Map;
 public class ResponseService implements IResponseService {
 
     private IResponseRepository responseRepository;
-    //private IFormsService formsService;
+    private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public ResponseService(IResponseRepository repository) {
+    public ResponseService(IResponseRepository repository, RabbitTemplate template) {
+        this.rabbitTemplate = template;
         this.responseRepository = repository;
-        //this.formsService = formsService;
     }
 
     public ResponseList getResponses(String surveyId) {
@@ -37,12 +41,13 @@ public class ResponseService implements IResponseService {
         return responseList;
     }
 
-    public boolean createResponse(String surveyId, Map<String, String> answers) {
-        // This should later be replaced with either an API call, message bus etc.
-        // if(formsService.getForm(surveyId) == null) return false;
+    public void verifyResponse(String surveyId, Map<String, String> answers) throws IOException {
+        ResponseMessage responseMessage = new ResponseMessage(surveyId, answers);
+        ObjectMapper objectMapper = new ObjectMapper();
+        rabbitTemplate.convertAndSend("UnverifiedResponseQueue", objectMapper.writeValueAsString(responseMessage));
+    }
 
-        Response response = new Response(surveyId, answers);
-
-        return responseRepository.createResponse(response);
+    public void createVerifiedResponse(Response response) {
+        responseRepository.createResponse(response);
     }
 }
