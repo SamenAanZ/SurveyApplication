@@ -47,3 +47,6 @@ gradle-app.setting
 
 # Code editor specifics
 .idea
+
+# Docker files
+*bin/
