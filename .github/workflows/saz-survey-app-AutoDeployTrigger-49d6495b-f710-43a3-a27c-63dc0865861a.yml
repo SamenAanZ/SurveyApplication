@@ -1,0 +1,42 @@
+name: Trigger auto deployment for saz-survey-app
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - 'SurveyService/**'
+    - '.github/workflows/saz-survey-app-AutoDeployTrigger-49d6495b-f710-43a3-a27c-63dc0865861a.yml'
+
+  # Allow mannually trigger 
+  workflow_dispatch:
+      
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.SAZSURVEYAPP_AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          appSourcePath: ${{ github.workspace }}/SurveyService 
+          registryUrl: saztestregistry.azurecr.io
+          registryUsername: ${{ secrets.SAZSURVEYAPP_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.SAZSURVEYAPP_REGISTRY_PASSWORD }}
+          containerAppName: saz-survey-app
+          resourceGroup: SAZ_Test_Deployment
+          imageToBuild: saztestregistry.azurecr.io/saz-survey-app:${{ github.sha }}
+          dockerfilePath: Dockerfile
+
+     
+
