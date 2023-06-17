@@ -18,10 +18,10 @@ public class Application {
         return builder.routes()
                 .route(p -> p
                         .path("/survey/**")
-                        .uri("http://surveys-1:8082"))
+                        .uri("http://localhost:8082"))
                 .route(p -> p
                         .path("/response/**")
-                        .uri("http://responses-1:8083"))
+                        .uri("http://localhost:8083"))
                 .build();
     }
 
