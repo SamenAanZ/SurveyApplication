@@ -1,20 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { QuestionnaireService } from 'src/app/services/questionnaire.service';
 import { Questionnaire } from 'src/app/services/questionnaire';
 import { ActivatedRoute } from '@angular/router';
 import { SurveyModel } from 'survey-core';
-
-const surveyJson = {
-  elements: [{
-    name: "FirstName",
-    title: "Enter your first name:",
-    type: "text"
-  }, {
-    name: "LastName",
-    title: "Enter your last name:",
-    type: "text"
-  }]
-};
+import { SurveyPersistanceService } from 'src/app/services/survey-persistance.service';
 
 @Component({
   selector: 'app-questionnaire-detail',
@@ -22,37 +10,37 @@ const surveyJson = {
   styleUrls: ['./questionnaire-detail.component.css']
 })
 export class QuestionnaireDetailComponent implements OnInit{
+  public surveyTitle: string = "";
+  public surveyDescription: string = "";
   surveyModel: SurveyModel;
   public questionnaire: Questionnaire | null = null;
 
   constructor(
     private readonly router: ActivatedRoute,
-    private readonly questionnaireService: QuestionnaireService) {
-      const survey = new SurveyModel(surveyJson);
-      this.surveyModel = survey;
+    private readonly surveyService: SurveyPersistanceService) {
+      this.surveyModel = new SurveyModel();
     }
 
   async ngOnInit(): Promise<void> {
-    // Todo:
-    // - Make call to backend to get specific questionnaire
-    // - To make the request the surveyId and userId (sub) are used
-    // - When the survey is retrieved it will extract the properties and survey JSON
-    // - The survey is refreshed and displayed
-    
-    // - Connect the survey send button to create a post request with survey results
-    // - The results will be sent with the id of the survey
-
     this.router.paramMap.subscribe(async params => {
       const questionnaireId = params.get('id');
 
       if (questionnaireId)
       {
-        const questionnaires = await this.questionnaireService.RetrieveAll();
-        const foundQuestionnaire = questionnaires.find(q => q.id == questionnaireId);
+        this.surveyService.getSurveyBySurveyId(questionnaireId).subscribe(response => {
+          console.log(response);
 
-        if (foundQuestionnaire)
-          this.questionnaire = foundQuestionnaire;
+          this.surveyTitle = response.title;
+          this.surveyDescription = response.description;
+          this.surveyModel.setJsonObject(response);
+          this.surveyModel.onComplete.add(this.onCompleteSurvey);
+        })
       }
     });
+  }
+
+  private onCompleteSurvey(model: SurveyModel): void {
+    console.log(model.data);
+    alert(model.data);
   }
 }

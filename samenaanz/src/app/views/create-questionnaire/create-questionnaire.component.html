@@ -7,9 +7,7 @@
       <div class="col-6 d-flex align-items-center">
         <select [(ngModel)]="selectedSurvey" class="form-select custom-select me-3" aria-label="Select your survey">
           <option [value]="null" disabled selected>Select your created surveys</option>
-          <option value="option1">MySurvey 1</option>
-          <option value="option2">MySurvey 2</option>
-          <option value="option3">MySurvey 3</option>
+          <option *ngFor="let survey of ownedSurveys" [value]="survey.id">{{ survey.title }}</option>
         </select>
         <button class="btn btn-primary custom-button" (click)="loadSurvey()">Load survey</button>
       </div>

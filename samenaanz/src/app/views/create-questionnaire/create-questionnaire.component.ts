@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { SurveyCreatorModel } from 'survey-creator-core';
 import { surveyCreatorSettings } from 'src/environments/environment';
-import { defaultSurveyCreatorTemplate } from 'src/environments/environment';
-import { SurveyLocalStorageService } from 'src/app/services/survey-local-storage.service';
 import { Survey } from 'src/app/models/survey';
 import { KeycloakProviderService } from 'src/app/services/auth/keycloak-provider.service';
 import { ClaimType } from 'src/app/models/claim-types';
+import { SurveyPersistanceService } from 'src/app/services/survey-persistance.service';
 
 @Component({
   selector: 'app-create-questionnaire',
@@ -13,19 +12,18 @@ import { ClaimType } from 'src/app/models/claim-types';
   styleUrls: ['./create-questionnaire.component.scss']
 })
 export class CreateQuestionnaireComponent {
-  public createdSurveys: Survey[] = [];
+  public ownedSurveys: Survey[] = [];
   public selectedSurvey: string | null = null;
   public surveyCreatorModel: SurveyCreatorModel;
 
   constructor(
-    private readonly localSurveyService: SurveyLocalStorageService,
-    private readonly keycloakProvider: KeycloakProviderService){
+    private readonly keycloak: KeycloakProviderService,
+    private readonly surveyService: SurveyPersistanceService){
+    // Get a list of created surveys to populate the dropdown
+    this.getCreatedSurveys();
+    
     // Configure surveyJS creator
     this.surveyCreatorModel = this.configureCreator();
-  }
-
-  public loadSurvey(): void {
-    
   }
 
   private configureCreator(): SurveyCreatorModel{
@@ -36,33 +34,53 @@ export class CreateQuestionnaireComponent {
     if (!surveyCreatorSettings.isAutoSave)
       creator.showSaveButton = true;
 
-    // Assign the saved surveyJson. If it does not exist, then use the default JSON template.
-    creator.text = this.localSurveyService.getItem(this.localSurveyService.localSurveyId) || JSON.stringify(defaultSurveyCreatorTemplate);
+    // Dont allow additional page with questions
+    creator.pageEditMode = "single";
+    creator.allowModifyPages = false;
+    creator.showPagesInPreviewTab = false;
+    creator.showPageSelectorInToolbar = false;
 
-    // When the survey is saved in the editor, it is stored in localstorage
-    creator.saveSurveyFunc = (surveyNumber: number, callback: Function) => {
-      
-      const surveyJson = creator.getSurveyJSON();
-      const surveyTitle = surveyJson['title'];
-      const surveyDescription = surveyJson['description'];
+    creator.saveSurveyFunc = (surveyNo: number, callback: Function) => {
 
-      const survey: Survey = {
-        id: "",
-        title: surveyTitle,
-        description: surveyDescription,
-        dueDate: "",
-        ownerId: this.keycloakProvider.getTokenClaim(ClaimType.id),
-        state: "Unpublished",
-        surveyJson: creator.text
+      const surveyJson = this.surveyCreatorModel.getSurveyJSON();
+      const questions = surveyJson["pages"][0].elements;
+
+      const survey = {
+        name: surveyJson['title'],
+        title: surveyJson['title'],
+        description: surveyJson['description'],
+        ownerId: this.keycloak.getTokenClaim(ClaimType.id),
+        state: "OPEN",
+        questions: questions
       }
 
-      const jsonConvert = JSON.stringify(survey);
-
-      this.localSurveyService.setItem(this.localSurveyService.localSurveyId, jsonConvert);
-      callback(surveyNumber, true);
       this.surveyCreatorModel = creator;
+      callback(true);
+
+      this.surveyService.createSurvey(survey);
     }
 
     return creator;
+  }
+
+  private getCreatedSurveys(): void {
+    const userId = this.keycloak.getTokenClaim(ClaimType.id);
+    this.surveyService.getSurveysByOwnerId(userId).subscribe(response => {
+      this.ownedSurveys = response;
+    })
+  }
+
+  public loadSurvey(): void {
+    // Check if a survey is selected
+    if (this.selectedSurvey) {
+
+      // Retrieve the survey JSON based on the selected survey ID
+      const selectedSurvey = this.ownedSurveys.find(survey => survey.id === this.selectedSurvey);
+      
+      if (selectedSurvey) {
+        console.log(selectedSurvey);
+        this.surveyCreatorModel.JSON = selectedSurvey;
+      }
+    }
   }
 }
