@@ -9,18 +9,16 @@ export const keycloakEnvironment = {
     checkLoginTimeSeconds: 25
 }
 
+export const backendEnvironment = {
+    url: "http://localhost:8081"
+}
+
 export const angularEnvironment = {
     url: "http://localhost:4200"
 }
 
 export const surveyCreatorSettings = {
     questionTypes: ['radiogroup'],
-    pages: [
-        {
-          name: "page1",
-          elements: []
-        }
-      ],
     showLogicTab: false,
     isAutoSave: false,
     showTimerPanel: false,

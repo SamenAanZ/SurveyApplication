@@ -13,25 +13,22 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">Questionnaire</th>
-          <th scope="col">Organization</th>
-          <th scope="col">Due Date</th>
+          <th scope="col">Description</th>
           <th scope="col">Status</th>
         </tr>
         </thead>
       <!-- Table rows -->
       <tbody>
-        <tr *ngFor="let survey of surveys">
+        <tr *ngFor="let survey of openSurveys">
           <td scope="row">{{ survey.id }}</td>
           <td><a [routerLink]="survey.id">{{ survey.title }}</a></td>
           <td>{{ survey.description }}</td>
-          <td>{{ survey.dueDate }}</td>
           <td class="bg-success bg-gradient">{{ survey.state }}</td>
         </tr>
         <tr *ngFor="let survey of closedSurveys">
           <td scope="row">{{ survey.id }}</td>
           <td>{{ survey.title }}</td>
           <td>{{ survey.description }}</td>
-          <td>{{ survey.dueDate }}</td>
           <td class="bg-danger bg-gradient">{{ survey.state }}</td>
         </tr>
       </tbody>

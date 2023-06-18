@@ -26,6 +26,7 @@ import { QuestionnaireDetailComponent } from './views/questionnaire-detail/quest
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 import { QuestionnaireResultsComponent } from './views/questionnaire-results/questionnaire-results.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { QuestionnaireResultsComponent } from './views/questionnaire-results/que
     BrowserAnimationsModule,
     KeycloakAngularModule,
     SurveyModule,
-    SurveyCreatorModule
+    SurveyCreatorModule,
+    HttpClientModule
   ],
   providers: [
     {
