@@ -15,22 +15,13 @@ The resulting command looks like this:
 
 ## Production vs Development
 
-To make the Survey and Response services connect to RabbitMQ, the RabbitMQ host has to be set correctly locally.
-The RabbitMQ host configuration within a service, can be found under `application.properties` within the services' resources folder:
+To launch the backend in a 'production mode', you can use the above `docker compose up -d` command.
+With this, everything will be run in docker containers in one package, and the (Spring Profiles)[https://www.baeldung.com/spring-profiles] will make sure the environment variables are set properly.
 
-```
-Service/
-    └── src/
-        └── main/
-            ├── java
-            └── resources/
-                └── -> application.properties <-
-```
+To run everything in a 'development mode', you can individually launch every service using IntelliJ IDEA or just by building and running the project.
+Additionally, you will need to install and run a RabbitMQ instance on your computer. (This is what I used on my Windows machine)[https://www.rabbitmq.com/install-windows.html#downloads] to run it locally.
 
-The value to change is `spring.rabbitmq.host={VALUE}`
-
-In the Azure environment or when developing locally, this has to be set to `localhost`.
-When everything is dockerized, or running in seperate docker containers, this has to be set to `rabbitmq` (this is because the container is called `rabbitmq`).
+If you want to run the RabbitMQ instance in Docker, you will need to adjust the development profile within `main/resources/application-dev.properties` to change the host to the host of the docker container. You have to do this for every related service.
 
 ## Azure
 
