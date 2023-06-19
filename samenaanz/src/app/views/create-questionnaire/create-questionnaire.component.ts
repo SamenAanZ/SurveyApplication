@@ -13,7 +13,6 @@ import { SurveyPersistanceService } from 'src/app/services/survey-persistance.se
 })
 export class CreateQuestionnaireComponent {
   public ownedSurveys: Survey[] = [];
-  public selectedSurvey: string | null = null;
   public surveyCreatorModel: SurveyCreatorModel;
 
   constructor(
@@ -70,15 +69,12 @@ export class CreateQuestionnaireComponent {
     })
   }
 
-  public loadSurvey(): void {
-    // Check if a survey is selected
-    if (this.selectedSurvey) {
-
-      // Retrieve the survey JSON based on the selected survey ID
-      const selectedSurvey = this.ownedSurveys.find(survey => survey.id === this.selectedSurvey);
+  public loadSurvey(selectedSurvey: Survey): void {
+    console.log(selectedSurvey);
+    if (selectedSurvey) {
+      const selectedSurvey = this.ownedSurveys.find(survey => survey.id);
       
       if (selectedSurvey) {
-        console.log(selectedSurvey);
         this.surveyCreatorModel.JSON = selectedSurvey;
       }
     }

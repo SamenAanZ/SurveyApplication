@@ -1,0 +1,24 @@
+<div class="card">
+    <div class="card-body">
+        <input type="text" [(ngModel)]="searchTerm" class="form-control form-control-sm" placeholder="Search">
+      <!-- Place your table here -->
+      <table class="table table-hover">
+        <!-- Table headers -->
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col"></th>
+          </tr>
+          </thead>
+        <!-- Table rows -->
+        <tbody>
+          <tr *ngFor="let survey of filterItems">
+            <td>{{ survey.title }}</td>
+            <td>{{ survey.description }}</td>
+            <td><button (click)="onLoadSurvey(survey)" class="btn btn-primary custom-button">Load survey</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

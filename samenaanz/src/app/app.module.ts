@@ -27,6 +27,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 import { QuestionnaireResultsComponent } from './views/questionnaire-results/questionnaire-results.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ListQuestionnairesComponent } from './components/list-questionnaires/list-questionnaires.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { HttpClientModule } from '@angular/common/http';
     QuestionnaireDetailComponent,
     NotFoundComponent,
     UnauthorizedComponent,
-    QuestionnaireResultsComponent
+    QuestionnaireResultsComponent,
+    ListQuestionnairesComponent
   ],
   imports: [
     BrowserModule,
