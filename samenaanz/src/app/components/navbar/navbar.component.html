@@ -1,0 +1,9 @@
+<nav class="navbar navbar-expand-sm justify-content-end">
+  <div class="collapse navbar-collapse flex-grow-0">
+    <ul class="navbar-nav text-right">
+      <li *ngIf="profile" class="nav-item active">
+        <button class="btn success" (click)="logout()">Logout</button>
+      </li>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,37 @@
+<div class="justify-content-center text-center mb-3">
+  <h1>Questionnaires</h1>
+  <span>Finished and open questionnaires are listed here</span>
+  <hr>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <!-- Place your table here -->
+    <table class="table table-hover">
+      <!-- Table headers -->
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Questionnaire</th>
+          <th scope="col">Description</th>
+          <th scope="col">Status</th>
+        </tr>
+        </thead>
+      <!-- Table rows -->
+      <tbody>
+        <tr *ngFor="let survey of openSurveys">
+          <td scope="row">{{ survey.id }}</td>
+          <td><a [routerLink]="survey.id">{{ survey.title }}</a></td>
+          <td>{{ survey.description }}</td>
+          <td class="bg-success bg-gradient">{{ survey.state }}</td>
+        </tr>
+        <tr *ngFor="let survey of closedSurveys">
+          <td scope="row">{{ survey.id }}</td>
+          <td>{{ survey.title }}</td>
+          <td>{{ survey.description }}</td>
+          <td class="bg-danger bg-gradient">{{ survey.state }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
