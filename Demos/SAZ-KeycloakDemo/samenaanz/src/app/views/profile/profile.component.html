@@ -1,0 +1,31 @@
+<div *ngIf="isLoggedIn && userProfile">
+    <h1>You are currently logged in. Welcome <b>{{ userProfile.username }}</b></h1>
+    <hr>
+    <div>
+        <ul>
+            <li><span>Id: </span> {{ userProfile.id }}</li>
+            <li><span>Username: </span> {{ userProfile.username }}</li>
+            <li><span>Email: </span> {{ userProfile.email }}</li>
+            <li><span>FirstName: </span> {{ userProfile.firstName }}</li>
+            <li><span>LastName: </span> {{ userProfile.lastName }}</li>
+            <li><span>EmailVerified?: </span> {{ userProfile.emailVerified }}</li>
+        </ul>
+    </div>
+    <hr>
+    <h1>Assigned roles for this account:</h1>
+    <div>
+        <ul>
+            <li *ngFor="let role of userRoles">{{ role }}</li>
+        </ul>
+    </div>
+    <div *ngIf="isInRole">
+        <hr>
+        <h1>You can see this if you are in the <b>myrole</b> role</h1>
+    </div>
+    <div *ngIf="isInApiRole">
+        <hr>
+        <h1>You can see this if you are in the <b>apirole</b> role</h1>
+    </div>
+    <button (click)="logout()">Logout</button>
+    <a routerLink="/">Back to Home</a>
+</div>

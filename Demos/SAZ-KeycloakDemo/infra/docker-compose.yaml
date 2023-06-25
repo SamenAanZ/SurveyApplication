@@ -1,0 +1,37 @@
+version: "3.7"
+
+services:    
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: "keycloak"
+    volumes:
+      #- /etc/localtime:/etc/localtime:ro
+      - ./keycloak.conf:/opt/keycloak/conf/keycloak.conf
+    command:
+      - start-dev
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    ports:
+      - 8080:8080
+    networks:
+      - internal
+
+  keycloak_db:
+    image: postgres:13
+    container_name: "postgres"
+    environment:
+      - POSTGRES_USER=keycloak
+      - POSTGRES_DATABASE=keycloak
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - internal
+
+networks:
+  internal:
+
+volumes:
+  postgres_data:
+  conf:
